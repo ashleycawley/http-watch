@@ -1,9 +1,11 @@
 #!/bin/bash
 
 # Variables
-COUNTER=1
-DELAY=3
-STATUSCODE=(`curl -s -o /dev/null -w "%{http_code}" http://www.eddxample.org/`)
+DOMAIN="http://status.ashleycawley.co.uk/online.html"
+DELAY=10
+NUMBEROFTRIES=3
+SAVENUM=($NUMBEROFTRIES)
+STATUSCODE=(`curl -s -o /dev/null -w "%{http_code}" $DOMAIN`)
 
 export NEWT_COLORS='
 window=,red
@@ -19,20 +21,28 @@ button=black,white
 
 #whiptail --title "http-watch - URL" --inputbox "Enter the URL to monitor" 8 78
 
-while [ $COUNTER -le 3 ]
+while [ $STATUSCODE == "200" ]
 do
-	echo "Running $COUNTER"
-	if [ $STATUSCODE == "200" ]
-	then
-		echo "URL is online." && echo
-		echo "Status code: 200" && echo
-		echo "Exiting..." && echo
-		exit 0
-	fi
+	echo "OK"	
+	echo "Sleeping by $DELAY"
 	sleep $DELAY
-	((COUNTER++))
-done
 
-echo "URL is offline..." && echo
-echo "Restarting Web Server..." && echo
-service sshd status
+	echo "NUMBEROFTRIES = $NUMBEROFTRIES" # Debugging
+	STATUSCODE=(`curl -s -o /dev/null -w "%{http_code}" $DOMAIN`)
+	
+	while [ $STATUSCODE != "200" ] && [ $NUMBEROFTRIES -gt 0 ]
+	do
+		echo "Test Failed - Retying..."
+		echo "Sleeping by $DELAY" && sleep $DELAY
+		STATUSCODE=(`curl -s -o /dev/null -w "%{http_code}" $DOMAIN`)
+		((NUMBEROFTRIES--))
+		echo "NUMBEROFTRIES = $NUMBEROFTRIES" # Debugging
+	done
+	if [ $NUMBEROFTRIES == "0" ]
+	then
+		echo "URL is offline..." && echo
+		echo "Restarting Web Server..." && echo
+		service sshd status	
+	fi
+	NUMBEROFTRIES=($SAVENUM)
+done
