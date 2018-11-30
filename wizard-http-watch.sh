@@ -31,7 +31,7 @@ fi
 SUPPLIEDRETRIES=$(whiptail --inputbox "Enter the number of retries after failure:" 8 78 3 --title "HTTP-WATCH - Number of Retries" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
-        sed -i s,NUMBEROFTRIES,$SUPPLIEDRETRIES,g config
+        sed -i s,NUMBEROFTRIESPLACEHOLDER,$SUPPLIEDRETRIES,g config
 else
         echo "User selected Cancel." && exit 1
 fi
@@ -40,7 +40,7 @@ fi
 SUPPLIEDACTION=$(whiptail --inputbox "Enter the command you wish to execute upon failure:" 8 78 --title "HTTP-WATCH - Action" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
-        sed -i s,ACTIONPLACEHOLDER,$SUPPLIEDACTION,g config
+        sed -i "s,ACTIONPLACEHOLDER,$SUPPLIEDACTION,g" config
 else
         echo "User selected Cancel." && exit 1
 fi
