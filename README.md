@@ -6,19 +6,13 @@ It includes a wizard which helps to configure the program for you.
 
 
 ## Usage
-Run:
-
-```./wizard-http-watch.sh```
+Run: ```./wizard-http-watch.sh```
 
 And it will present you with a GUI which will take information from you and program the config file for you.
 
-Then run:
+Then run: ```./http-watch.sh```
 
-```./http-watch.sh```
-
-To continually run the background use:
-
-```./http-watch.sh &```
+To continually run the background use: ```./http-watch.sh &```
 
 To have the program continually monitor
 
