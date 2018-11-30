@@ -1,13 +1,13 @@
 # HTTP-WATCH Confguration
 #
 # URL to test - An example would be: URL="http://example.com/page.html"
-URL="http://ashleycawley.co.uk/online.html"
+URL="URLPLACEHOLDER"
 
 # Number of seconds - An example would be: DELAY=30
-DELAY=5
+DELAY=DELAYPLACEHOLDER
 
 # Number of retry attempts - An example would be: NUMBEROFTRIES=3
-NUMBEROFTRIES=3
+NUMBEROFTRIES=NUMBEROFTRIESPLACEHOLDER
 
 # Command that is execute when action is required - An example would be: ACTION='service lsws restart'
-ACTION='service sshd restart'
+ACTION='ACTIONPLACEHOLDER'
