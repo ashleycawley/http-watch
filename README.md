@@ -17,3 +17,4 @@ To continually run the background use: ```./http-watch.sh &```
 To have the program continually monitor
 
 ## Dev Notes
+-- Work on handling a failure if it stays down
