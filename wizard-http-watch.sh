@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Variables
+STATE=false
+
 # Functions
 function TESTURL {
 STATUSCODE=(`curl -s -o /dev/null -w "%{http_code}" $SUPPLIEDURL`)
@@ -25,26 +28,32 @@ cp config-template config
 
 while [ $STATE == "false" ]
 do
-# Gathers the URL to monitor from the user
-SUPPLIEDURL=$(whiptail --inputbox "Enter the URL to monitor:" 8 78 http:// --title "HTTP-WATCH - URL" 3>&1 1>&2 2>&3)
-exitstatus=$?
-if [ $exitstatus = 0 ]; then
-	sed -i s,URLPLACEHOLDER,$SUPPLIEDURL,g config
+	# Gathers the URL to monitor from the user
+	SUPPLIEDURL=$(whiptail --inputbox "Enter the URL to monitor:" 8 78 http:// --title "HTTP-WATCH - URL" 3>&1 1>&2 2>&3)
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		sed -i s,URLPLACEHOLDER,$SUPPLIEDURL,g config
 
-	TESTURL
+		TESTURL
 
-	if [ $STATUSCODE != "200" ]
-	then
-		if (whiptail --title "URL Offline" --yesno "The URL you provided appears to be offline, are you sure you still want to proceed?" 8 78); then
-    			echo	
-		else
-    			echo "User selected No, exit status was $?."
+		if [ $STATUSCODE == "200" ]
+		then
+			STATE=true
 		fi
 
+		if [ $STATUSCODE != "200" ]
+		then
+			if (whiptail --title "URL Offline" --yesno "The URL you provided appears to be offline, are you sure you still want to proceed?" 8 78); then
+				STATE=true	
+			else
+				STATE=false
+			fi
+
+		fi
+	else
+		echo "User selected Cancel." && exit 1
 	fi
-else
-	echo "User selected Cancel." && exit 1
-fi
+done
 
 # Gathers the delay in seconds from the user
 SUPPLIEDDELAY=$(whiptail --inputbox "Enter the delay in seconds between the tests:" 8 78 30 --title "HTTP-WATCH - Delay in Seconds" 3>&1 1>&2 2>&3)
