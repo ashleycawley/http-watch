@@ -16,15 +16,11 @@ echo "NUMBEROFTRIES = $NUMBEROFTRIES" # Debugging
 }
 
 function PAUSE {
-echo "Pasung for $DELAY seconds" && sleep $DELAY
+sleep $DELAY
 }
 
 function NORESPONSE {
 echo "Error: URL Not Responding"
-}
-
-function TAKEACTION {
-$ACTION
 }
 
 # Script
@@ -35,26 +31,42 @@ TESTURL # Performs intial test to see if URL is online and get its status code
 
 while [ $STATUSCODE == "200" ]
 do
-	echo "200 - OK"	
+	# echo "200 - OK" # Debugging
 	PAUSE # Pauses for x number of seconds (specified by the user)
-	ECHORETRIES # Debugging
+	#ECHORETRIES # Debugging
 	TESTURL # Tests the URL supplied by the user and returns 200 (OK) status code or nothing
 	
 	while [ $STATUSCODE != "200" ] && [ $NUMBEROFTRIES -gt 0 ]
 	do
-		NORESPONSE # Debugging
-		ECHORETRIES # Debugging
+		#NORESPONSE # Debugging
+		#ECHORETRIES # Debugging
 		PAUSE
 		TESTURL
 		((NUMBEROFTRIES--))
 	done
+
 	if [ $NUMBEROFTRIES == "0" ]
 	then
-		NORESPONSE # Debugging
+		#NORESPONSE # Debugging
 		$ACTION	
-		echo && echo "Service Restarted, pausing for 30 seconds before retrying..."
-		sleep 30
+		echo && echo "Service Restarted, pausing for $DELAY seconds before retrying..."
+		PAUSE
 		TESTURL
+		if [ $STATUSCODE != "200" ]
+		then
+			STATE=false
+		fi
+		
+		while [ $STATE == "false" ]
+		do
+			$ACTION
+			PAUSE
+			TESTURL
+			if [ $STATUSCODE == "200" ]
+			then
+				STATE=true
+			fi
+		done
 	fi
 	NUMBEROFTRIES=($SAVENUM) # Resets the NUMBEROFTRIES counter backs to its original number
 done
