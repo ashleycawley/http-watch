@@ -33,6 +33,7 @@ echo -e "\nHTTP-WATCH is monitoring: $URL"
 
 TESTURL # Performs intial test to see if URL is online and get its status code
 
+# Tests to see if the URL is online and working on the first run, if it isn't it gives the user the oppertunity to supply an alternative URL.
 if [ $STATUSCODE != "200" ]
 then
 	echo "Error: $URL appears to be offline. Please provide me with an alternative URL which is online."
@@ -50,10 +51,10 @@ do
 	while [ $STATUSCODE != "200" ] && [ $NUMBEROFTRIES -gt 0 ]
 	do
 		NORESPONSE # Debugging
+		ECHORETRIES # Debugging
 		PAUSE
 		TESTURL
 		((NUMBEROFTRIES--))
-		ECHORETRIES # Debugging
 	done
 	if [ $NUMBEROFTRIES == "0" ]
 	then
