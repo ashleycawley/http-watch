@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Functions
+function TESTURL {
+STATUSCODE=(`curl -s -o /dev/null -w "%{http_code}" $SUPPLIEDURL`)
+}
+
+
 export NEWT_COLORS='
 window=,red
 border=white,red
@@ -7,13 +13,35 @@ textbox=white,red
 button=black,white
 '
 
-#whiptail --title "http-watch" --msgbox "This wizard will help you implement monitoring of a URL and if it goes offline it can alert you and take action (restart your web server) for you." 8 78
+# Script
 
+whiptail --title "http-watch" --msgbox "This wizard will help you implement monitoring of a URL and if it goes offline it can alert you and take action (restart your web server) for you." 8 78
+
+# Clears any old config
+rm -f config
+
+# Copies blank template in to position to be re-written and editted by the commands below
+cp config-template config
+
+while [ $STATE == "false" ]
+do
 # Gathers the URL to monitor from the user
 SUPPLIEDURL=$(whiptail --inputbox "Enter the URL to monitor:" 8 78 http:// --title "HTTP-WATCH - URL" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
 	sed -i s,URLPLACEHOLDER,$SUPPLIEDURL,g config
+
+	TESTURL
+
+	if [ $STATUSCODE != "200" ]
+	then
+		if (whiptail --title "URL Offline" --yesno "The URL you provided appears to be offline, are you sure you still want to proceed?" 8 78); then
+    			echo	
+		else
+    			echo "User selected No, exit status was $?."
+		fi
+
+	fi
 else
 	echo "User selected Cancel." && exit 1
 fi
