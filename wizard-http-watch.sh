@@ -8,14 +8,6 @@ function TESTURL {
 STATUSCODE=(`curl -s -o /dev/null -w "%{http_code}" $SUPPLIEDURL`)
 }
 
-
-export NEWT_COLORS='
-window=,red
-border=white,red
-textbox=white,red
-button=black,white
-'
-
 # Script
 
 whiptail --title "http-watch" --msgbox "This wizard will help you implement monitoring of a URL and if it goes offline it can alert you and take action (restart your web server) for you." 8 78
