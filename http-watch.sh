@@ -33,6 +33,13 @@ echo -e "\nHTTP-WATCH is monitoring: $URL"
 
 TESTURL # Performs intial test to see if URL is online and get its status code
 
+if [ $STATUSCODE != "200" ]
+then
+	echo "Error: $URL appears to be offline. Please provide me with an alternative URL which is online."
+	read -p "URL: " URL
+	TESTURL # Tests the URL supplied by the user and returns 200 (OK) status code or nothing
+fi
+
 while [ $STATUSCODE == "200" ]
 do
 	echo "200 - OK"	
