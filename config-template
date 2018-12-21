@@ -11,3 +11,6 @@ NUMBEROFTRIES=NUMBEROFTRIESPLACEHOLDER
 
 # Command that is execute when action is required - An example would be: ACTION='service lsws restart'
 ACTION='ACTIONPLACEHOLDER'
+
+# Email which will be used to update
+EMAIL='EMAILPLACEHOLDER'
