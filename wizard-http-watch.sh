@@ -79,6 +79,7 @@ exitstatus=$?
 if [ $exitstatus = 0 ]; then
         sed -i "s,EMAILPLACEHOLDER,$SUPPLIEDEMAIL,g" config
 else
+	echo "User selected Cancel." && exit 1
 fi
 
 ## Reference ##
