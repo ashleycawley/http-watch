@@ -51,7 +51,7 @@ do
 		$ACTION	
 		
 		# Dispatch Email Alert
-		echo "http-watch detected that $URL was offline for a sustained period and it took action by running: $ACTION" | mail -s "[http-watch] Site Offline" acawley@cloudabove.com
+		echo "http-watch detected that $URL was offline for a sustained period and it took action by running: $ACTION" | mail -s "[http-watch] Site Offline" $EMAIL
 
 		echo && echo "Service Restarted, pausing for $DELAY seconds before retrying..."
 		PAUSE
