@@ -74,7 +74,7 @@ else
         echo "User selected Cancel." && exit 1
 fi
 
-SUPPLIEDEMAIL=$(whiptail --inputbox "Please enter the email which we will use if the website goes offline:" 8 78 --title "HTTP-WATCH - Email" 3>&1 1>&2 2>&3)
+SUPPLIEDEMAIL=$(whiptail --inputbox "Email address to be notified:" 8 78 --title "HTTP-WATCH - Email" 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
         sed -i "s,EMAILPLACEHOLDER,$SUPPLIEDEMAIL,g" config
