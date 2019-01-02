@@ -32,16 +32,8 @@ log_running_date=`date '+%Y-%m-%d %H:%M:%S'`
 if [ ! -d "$LOG_PATH" ] # Check to see if the path exists
 then
 	mkdir $LOG_PATH # If it does not, create the path from the config
-fi
-
-if [ $LOGGING = "1" ]
-then
 	touch log_tmp.txt $LOG_PATH
 	log_file=$LOG_PATH/log_tmp.txt
-elif [ $LOGGING = "0" ]
-then
-	touch log_tmp.txt ./
-	log_file=./log_tmp.txt
 fi
 
 # Script
@@ -59,7 +51,7 @@ TESTURL # Performs intial test to see if URL is online and get its status code
 while [ $STATUSCODE == "200" ]
 do
 	LOG_DATE
-	echo "$log_running_date - Status code was 200, Everything is operational" >> $log_file
+	echo "$log_running_date - Website is online..." >> $log_file
 	# echo "200 - OK" # Debugging
 	PAUSE # Pauses for x number of seconds (specified by the user)
 	#ECHORETRIES # Debugging
@@ -68,7 +60,7 @@ do
 	while [ $STATUSCODE != "200" ] && [ $NUMBEROFTRIES -gt 0 ]
 	do
 		LOG_DATE
-		echo "$log_running_date - Website Offline... Testing again..." >> $log_file
+		echo "$log_running_date - Website Offline... Trying again..." >> $log_file
 		#NORESPONSE # Debugging
 		#ECHORETRIES # Debugging
 		PAUSE
@@ -81,7 +73,7 @@ do
 		LOG_DATE
 		#NORESPONSE # Debugging
 		$ACTION	
-		echo "$log_running_date - Action was needed because the site was offline, command executed: $ACTION" >> $log_file
+		echo "$log_running_date - Action was needed because the site was offline, command that was executed: $ACTION" >> $log_file
 
 		# Dispatch Email Alert
 		LOG_DATE
@@ -97,31 +89,23 @@ do
 		then
 			LOG_DATE
 			STATE=false
-			echo "$log_running_date - Site still offline..." >> $log_file
+			echo "$log_running_date - Website is still offline..." >> $log_file
 		fi
 		
 		while [ $STATE == "false" ]
 		do	
 			LOG_DATE
 			$ACTION
-			echo "$log_running_date - Site still offline... Re-running command..." >> $log_file
+			echo "$log_running_date - Website is still offline... Re-running action command..." >> $log_file
 			PAUSE
 			TESTURL
 			if [ $STATUSCODE == "200" ]
 			then
 				LOG_DATE
 				STATE=true
-				echo "$log_running_date - Site is back online!" >> $log_file
+				echo "$log_running_date - Website is back online!" >> $log_file
 			fi
 		done
 	fi
 	NUMBEROFTRIES=($SAVENUM) # Resets the NUMBEROFTRIES counter backs to its original number
 done
-
-if [ $LOGGING = "1" ]
-then
-	echo "Log file saved at - $log_file"
-elif [ $LOGGING = "0" ]
-then
-	rm ./log_tmp.txt
-fi
