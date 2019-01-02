@@ -31,10 +31,11 @@ log_running_date=`date '+%Y-%m-%d %H:%M:%S'`
 
 if [ ! -d "$LOG_PATH" ] # Check to see if the path exists
 then
-	mkdir $LOG_PATH # If it does not, create the path from the config
-	touch log_tmp.txt $LOG_PATH
-	log_file=$LOG_PATH/log_tmp.txt
+	mkdir $LOG_PATH # If it does not, create the path from the confi
 fi
+
+touch log_tmp.txt $LOG_PATH
+log_file=$LOG_PATH/log_tmp.txt
 
 # Script
 
