@@ -28,7 +28,7 @@ log_running_date=`date '+%Y-%m-%d %H:%M:%S'`
 }
 
 function DATE {
-log_name_date=`date +%Y-%m-%d`
+log_name_date=`date +'%Y-%m-%d'`
 }
 
 # Pre-Script Checks
