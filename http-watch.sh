@@ -28,7 +28,7 @@ log_running_date=`date '+%Y-%m-%d %H:%M:%S'`
 }
 
 function DATE {
-log_name_date=`date +'%Y-%m-%d'`
+log_name_date=`date +'%Y%m%d'`
 }
 
 # Pre-Script Checks
@@ -38,6 +38,7 @@ then
 	mkdir -p $LOG_PATH # If it does not, create the path from the config
 fi
 
+DATE # Get the date
 touch log_$log_name_date.txt $LOG_PATH # Create a new log file
 log_file=$LOG_PATH/log_$log_name_date.txt # Specify the path used to write
 
