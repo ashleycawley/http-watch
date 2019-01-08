@@ -34,8 +34,8 @@ then
 	mkdir -p $LOG_PATH # If it does not, create the path from the config
 fi
 
-touch log_http-watch.txt $LOG_PATH # Create a new log file
-LOG_FILE=$LOG_PATH/log_http-watch.txt # Specify the path used to write
+touch http-watch.log $LOG_PATH # Create a new log file
+LOG_FILE=$LOG_PATH/http-watch.log # Specify the path used to write
 
 # Script
 

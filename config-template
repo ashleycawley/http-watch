@@ -19,4 +19,4 @@ EMAIL='EMAILPLACEHOLDER'
 LOGGING=1
 
 # Custom path for the Logging [ Do not add the trailing '/']
-LOG_PATH='/var/log/http-watch'
+LOG_PATH='/var/log/'
