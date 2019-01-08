@@ -14,3 +14,9 @@ ACTION='ACTIONPLACEHOLDER'
 
 # Email which will be used to update
 EMAIL='EMAILPLACEHOLDER'
+
+# Enable Logging (Hidden in wizard) 1=Enable/0=Disable (Will be revisited)
+LOGGING=1
+
+# Custom path for the Logging [ Do not add the trailing '/']
+LOG_PATH='/var/log'
