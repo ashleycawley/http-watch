@@ -39,7 +39,7 @@ LOG_FILE=$LOG_PATH/http-watch.log # Specify the path used to write
 
 # Script
 
-echo "----- http-watch log file -----"$'\r' > $LOG_FILE # New header 
+echo "----- http-watch log file -----" >> $LOG_FILE # New header 
 LOG_DATE # Get current time with Hours, Mins, Seconds
 echo "Script executed: $log_running_date" >> $LOG_FILE # Write execute time to log
 echo "User running: `whoami`" >> $LOG_FILE # Write user that executed the script to the log
