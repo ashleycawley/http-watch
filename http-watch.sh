@@ -86,7 +86,7 @@ do
 		if [ $STATUSCODE == "200" ]
 		then
 			LOG_DATE
-			echo "$log_running_date - $URL is back online..."
+			echo "$log_running_date - $URL is back online..." >> $LOG_FILE
 		elif [ $STATUSCODE != "200" ]
 		then
 			LOG_DATE
