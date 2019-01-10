@@ -79,18 +79,22 @@ do
 		echo "$log_running_date - Email was dispatched to: $EMAIL" >> $LOG_FILE
 
 		LOG_DATE
-		echo && echo "Service Restarted, pausing for $DELAY seconds before retrying..."
-		echo "$log_running_date - Service was restarted..." >> $LOG_FILE
+		echo && echo "Action was taken, pausing for $DELAY seconds before retrying..."
+		echo "$log_running_date - Action was taken... ($ACTION)" >> $LOG_FILE
 		PAUSE
 		TESTURL
-		if [ $STATUSCODE != "200" ]
+		if [ $STATUSCODE == "200" ]
+		then
+			LOG_DATE
+			echo "$log_running_date - $URL is back online..." >> $LOG_FILE
+		elif [ $STATUSCODE != "200" ]
 		then
 			LOG_DATE
 			STATE=false
 			echo "$log_running_date - $URL is still offline..." >> $LOG_FILE
 		fi
 		
-		while [ $STATE == "false" ]
+		while [[ $STATE == "false" ]]
 		do	
 			LOG_DATE
 			$ACTION
