@@ -8,7 +8,7 @@ SAVENUM=($NUMBEROFTRIES)
 
 # Functions
 function TESTURL {
-STATUSCODE=(`curl -s -o /dev/null -w "%{http_code}" $URL`)
+STATUSCODE=(`curl -s --max-time 10 -o /dev/null -w "%{http_code}" $URL`)
 }
 
 function ECHORETRIES {
