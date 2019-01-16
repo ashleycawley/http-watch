@@ -82,6 +82,45 @@ else
 	echo "User selected Cancel." && exit 1
 fi
 
+# Testing for whiptail.
+#SUPPLIEDURL=""
+#SUPPLIEDDELAY="3"
+#SUPPLIEDRETRIES="3"
+#SUPPLIEDACTION="service apache2 restart"
+#SUPPLIEDEMAIL=""
+
+CONFIRM='                              Is the supplied information correct?
+
+                            ========================================
+
+                              URL:               '$SUPPLIEDURL'
+                              DELAY SET:         '$SUPPLIEDDELAY'
+                              RETRY LIMIT:       '$SUPPLIEDRETRIES'
+                              ACTION SET:        '$SUPPLIEDACTION'
+                              EMAIL SET:         '$SUPPLIEDEMAIL''
+
+if (whiptail --title "Confirm Config" --yesno "$CONFIRM" 25 100)
+then
+	whiptail --title "Config Saved!" --msgbox "The config file has now been saved!" 8 78
+	exit 0
+else
+	if (whiptail --title "Start over?" --yesno "Would you like to restart the script?" 8 78)
+	then
+		clear
+		./wizard-http-watch.sh
+	else
+		if (whiptail --title "Delete current config?" --yesno "Would you like to delete the current config?" 8 78)
+		then
+			rm -f config
+			whiptail --title "Config Deleted!" --msgbox "Config file has been deleted!" 8 78
+			exit 0
+		else
+			whiptail --title "Config Saved!" --msgbox "Config files has been saved!" 8 78
+			exit 0
+		fi
+	fi
+fi
+
 ## Reference ##
 # URL="URLPLACEHOLDER"
 # DELAY=DELAYPLACEHOLDER
