@@ -99,26 +99,34 @@ CONFIRM='                              Is the supplied information correct?
                               ACTION SET:        '$SUPPLIEDACTION'
                               EMAIL SET:         '$SUPPLIEDEMAIL''
 
-if (whiptail --title "Confirm Config" --yesno "$CONFIRM" 25 100)
+if (whiptail --title "HTTP-Wizard - Confirm Config" --yesno "$CONFIRM" 25 100)
 then
-	whiptail --title "Config Saved!" --msgbox "The config file has now been saved!" 8 78
-	exit 0
+	whiptail --title "HTTP-Wizard - Config Saved!" --msgbox "The config file has now been saved!" 8 78
 else
-	if (whiptail --title "Start over?" --yesno "Would you like to restart the script?" 8 78)
+	if (whiptail --title "HTTP-Wizard - Start over?" --yesno "Would you like to restart the script?" 8 78)
 	then
 		clear
 		./wizard-http-watch.sh
 	else
-		if (whiptail --title "Delete current config?" --yesno "Would you like to delete the current config?" 8 78)
+		if (whiptail --title "HTTP-Wizard - Delete current config?" --yesno "Would you like to delete the current config?" 8 78)
 		then
 			rm -f config
-			whiptail --title "Config Deleted!" --msgbox "Config file has been deleted!" 8 78
+			whiptail --title "HTTP-Wizard - Config Deleted!" --msgbox "Config file has been deleted!" 8 78
 			exit 0
 		else
-			whiptail --title "Config Saved!" --msgbox "Config files has been saved!" 8 78
-			exit 0
+			whiptail --title "HTTP-Wizard - Config Saved!" --msgbox "Config files has been saved!" 8 78
 		fi
 	fi
+fi
+
+if (whiptail --title "HTTP-Watch - Start the script?" --yesno "Would you like to start the main script? (http-watch.sh)" 8 78)
+then
+	echo "Closing wizard-http-watch.sh.."
+	./http-watch.sh &
+	exit 0
+else
+	whiptail --title "HTTP-Wizard - Script finished!" --msgbox "The script has completed! I will not start http-watch..." 8 78
+	exit 0
 fi
 
 ## Reference ##

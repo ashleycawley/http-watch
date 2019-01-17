@@ -43,6 +43,7 @@ echo "----- http-watch log file -----" >> $LOG_FILE # New header
 LOG_DATE # Get current time with Hours, Mins, Seconds
 echo "Script executed: $log_running_date" >> $LOG_FILE # Write execute time to log
 echo "User running: `whoami`" >> $LOG_FILE # Write user that executed the script to the log
+echo "HTTP-WATCH is monitoring: $URL" >> $LOG_FILE # Write the URL which is being watched
 
 echo -e "\nHTTP-WATCH is monitoring: $URL"
 
