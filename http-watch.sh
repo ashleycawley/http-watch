@@ -29,15 +29,15 @@ log_running_date=`date '+%Y-%m-%d %H:%M:%S'`
 
 # Pre-Script Checks
 
-SCRIPT_NAME=`basename "$0"`
-GET_PID=$(pidof -x "$SCRIPT_NAME")
-if [ $GET_PID == $$ ] 2> /dev/null
+SCRIPT_NAME=`basename "$0"` # Get script name
+GET_PID=$(pidof -x "$SCRIPT_NAME") # Check the script name to see if it is running
+if [ $GET_PID == $$ ] 2> /dev/null # If the process ID is the same as this instance
 then
-	CLONE=0
+	sleep 1 # Wait for 1 second
 else
-	whiptail --title "http-watch.sh - Script already running!" --msgbox "http-watch is already running! Please stop the other instance before continuing.. The process ID: $GET_PID" 8 78
-	CLONE=1
-	exit 1
+	GET_PID=${GET_PID//$$/} # Remove it's own instance from $GET_PID
+	whiptail --title "http-watch.sh - Script already running!" --msgbox "http-watch is already running! Please stop the other instance before continuing.. The process ID: $GET_PID" 8 78 # Display message box and show the other process Id
+	exit 1 # Quit the script 
 fi
 
 if [ ! -d "$LOG_PATH" ] # Check to see if the path exists
