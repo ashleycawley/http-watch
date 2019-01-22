@@ -30,7 +30,7 @@ log_running_date=`date '+%Y-%m-%d %H:%M:%S'`
 # Pre-Script Checks
 
 SCRIPT_NAME=`basename "$0"`
-GET_PID=$(pidof -x $SCRIPT_NAME)
+GET_PID=$(pidof -x "$SCRIPT_NAME")
 if [ $GET_PID == "" ]
 then
 	CLONE=0
