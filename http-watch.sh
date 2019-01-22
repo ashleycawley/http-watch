@@ -29,6 +29,17 @@ log_running_date=`date '+%Y-%m-%d %H:%M:%S'`
 
 # Pre-Script Checks
 
+SCRIPT_NAME=`basename "$0"`
+GET_PID=$(pidof -x $SCRIPT_NAME)
+if [ $GET_PID == "" ]
+then
+	CLONE=0
+else
+	whiptail --title "http-watch.sh - Script already running!" --msgbox "http-watch is already running! Please stop the other instance before continuing.. The process ID: $GET_PID" 8 78
+	CLONE=1
+	exit 1
+fi
+
 if [ ! -d "$LOG_PATH" ] # Check to see if the path exists
 then
 	mkdir -p $LOG_PATH # If it does not, create the path from the config
