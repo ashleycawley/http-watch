@@ -29,6 +29,17 @@ log_running_date=`date '+%Y-%m-%d %H:%M:%S'`
 
 # Pre-Script Checks
 
+SCRIPT_NAME=`basename "$0"` # Get script name
+GET_PID=$(pidof -x "$SCRIPT_NAME") # Check the script name to see if it is running
+if [ $GET_PID == $$ ] 2> /dev/null # If the process ID is the same as this instance
+then
+	sleep 1 # Wait for 1 second
+else
+	GET_PID=${GET_PID//$$/} # Remove it's own instance from $GET_PID
+	whiptail --title "http-watch.sh - Script already running!" --msgbox "http-watch is already running! Please stop the other instance before continuing.. The process ID: $GET_PID" 8 78 # Display message box and show the other process Id
+	exit 1 # Quit the script 
+fi
+
 if [ ! -d "$LOG_PATH" ] # Check to see if the path exists
 then
 	mkdir -p $LOG_PATH # If it does not, create the path from the config
@@ -43,6 +54,7 @@ echo "----- http-watch log file -----" >> $LOG_FILE # New header
 LOG_DATE # Get current time with Hours, Mins, Seconds
 echo "Script executed: $log_running_date" >> $LOG_FILE # Write execute time to log
 echo "User running: `whoami`" >> $LOG_FILE # Write user that executed the script to the log
+echo "HTTP-WATCH is monitoring: $URL" >> $LOG_FILE # Write the URL which is being watched
 
 echo -e "\nHTTP-WATCH is monitoring: $URL"
 
