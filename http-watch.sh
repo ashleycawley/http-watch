@@ -31,7 +31,7 @@ log_running_date=`date '+%Y-%m-%d %H:%M:%S'`
 
 SCRIPT_NAME=`basename "$0"`
 GET_PID=$(pidof -x "$SCRIPT_NAME")
-if [ $GET_PID == "" ]
+if [ $GET_PID == $$ ] 2> /dev/null
 then
 	CLONE=0
 else
