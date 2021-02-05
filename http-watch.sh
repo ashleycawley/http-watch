@@ -31,14 +31,6 @@ log_running_date=`date '+%Y-%m-%d %H:%M:%S'`
 
 SCRIPT_NAME=`basename "$0"` # Get script name
 GET_PID=$(pidof -x "$SCRIPT_NAME") # Check the script name to see if it is running
-if [ $GET_PID == $$ ] 2> /dev/null # If the process ID is the same as this instance
-then
-	sleep 1 # Wait for 1 second
-else
-	GET_PID=${GET_PID//$$/} # Remove it's own instance from $GET_PID
-	whiptail --title "http-watch.sh - Script already running!" --msgbox "http-watch is already running! Please stop the other instance before continuing.. The process ID: $GET_PID" 8 78 # Display message box and show the other process Id
-	exit 1 # Quit the script 
-fi
 
 if [ ! -d "$LOG_PATH" ] # Check to see if the path exists
 then
@@ -74,6 +66,7 @@ do
 		#NORESPONSE # Debugging
 		#ECHORETRIES # Debugging
 		PAUSE
+
 		TESTURL
 		((NUMBEROFTRIES--))
 	done
@@ -87,13 +80,14 @@ do
 
 		# Dispatch Email Alert
 		LOG_DATE
-		echo -e "[http-watch] reporting from `hostname` at `date` \n \nDetected that $URL was offline.\n \nThe following action was taken: $ACTION" | mail -s "[http-watch] $URL" $EMAIL
+		echo -e "HTTP-WATCH reporting from `hostname` at `date` \n \nDetected that $URL was offline.\n \nThe following action was taken: $ACTION" | mail -s "HTTP-WATCH - $URL" $EMAIL
 		echo "$log_running_date - Email was dispatched to: $EMAIL" >> $LOG_FILE
 
 		LOG_DATE
 		echo && echo "Action was taken, pausing for $DELAY seconds before retrying..."
 		echo "$log_running_date - Action was taken... ($ACTION)" >> $LOG_FILE
 		PAUSE
+
 		TESTURL
 		if [ $STATUSCODE == "200" ]
 		then
@@ -112,6 +106,7 @@ do
 			$ACTION
 			echo "$log_running_date - $URL is still offline... Re-running action command..." >> $LOG_FILE
 			PAUSE
+
 			TESTURL
 			if [ $STATUSCODE == "200" ]
 			then
