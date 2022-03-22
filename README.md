@@ -4,17 +4,20 @@ Monitors a URL, if the page goes offline it alerts via email and executes a comm
 
 It includes a wizard which helps to configure the program for you.
 
+## Installation
+Download this repo:
 
-## Usage
-Run: ```./wizard-http-watch.sh```
+```git clone https://github.com/ashleycawley/http-watch.git```
 
-And it will present you with a GUI which will take information from you and program the config file for you.
+```cd http-watch```
 
-Then run: ```./http-watch.sh```
+```./wizard-http-watch.sh```
 
-To continually run the background use: ```./http-watch.sh &```
+And it will present you with a GUI which will take information from you and program the config file for you. Once you have completed the wizard run the following command to start http-watch in the background:
 
-To have the program continually monitor
+```./http-watch.sh &```
+
+The **&** runs the script in the background which means you can leave the shell session and it will continue to monitor and act on your behalf.
 
 ## Dev Notes
 -- Add in email alerting
